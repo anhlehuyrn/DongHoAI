@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 7
+names: ['chuot_chu_re', 'chuot_co_dau', 'chuot_khenh_kieu', 'chuot_mang_le_vat', 'chuot_nguoi_hau', 'chuot_nhac_cong', 'ho_uy_nghi']
+
+roboflow:
+  workspace: tdh-7hgxn
+  project: tdh-7hgxn
+  version: dataset
+  license: Private
+  url: https://app.roboflow.com/tdh-7hgxn/tdh-7hgxn/dataset

@@ -1,0 +1,162 @@
+{
+  "Groom_Mouse": {
+    "child": {
+      "vi": "Đây là chú chuột chú rể cưỡi ngựa, trông rất bảnh bao và đang đi đón cô dâu!",
+      "en": "This is the groom rat riding a horse, looking very handsome and on his way to pick up his bride!",
+      "zh": "这是骑着马的新郎老鼠，看起来非常帅气，正要去接新娘！"
+    },
+    "elderly": {
+      "vi": "Chuột chú rể cưỡi ngựa trong đoàn rước, biểu trưng cho người dân bình thường đang thực hiện việc trọng đại nhưng vẫn chịu sự chi phối của quyền lực.",
+      "en": "The rat groom riding a horse in the procession symbolizes the common people carrying out a major life event while still under the control of the powerful.",
+      "zh": "新郎老鼠在迎亲队伍中骑着马，象征着普通百姓在办理人生大事时，依然受到强权的支配。"
+    },
+    "blindness": {
+      "vi": "Một chú chuột mặc trang phục chú rể, cưỡi trên lưng ngựa trong đoàn rước.",
+      "en": "A rat dressed as a groom, riding on horseback within a procession.",
+      "zh": "一只穿着新郎服装的老鼠，在迎亲队伍中骑着马。"
+    },
+    "adult": {
+      "vi": "Chuột chú rể đại diện cho tầng lớp dân thường, dù là ngày vui cũng phải tuân theo những quy tắc và áp lực xã hội.",
+      "en": "The rat groom represents the common class, who even on their happiest day must comply with social rules and pressures.",
+      "zh": "新郎老鼠代表平民阶层，即使在喜庆的日子里，也必须遵守社会规则并承受压力。"
+    }
+  },
+
+  "Bride_Mouse": {
+    "child": {
+      "vi": "Cô chuột cô dâu xinh đẹp đang ngồi trên kiệu hoa, được mọi người rước đi!",
+      "en": "The beautiful bride rat is sitting in a flower palanquin, being carried by everyone!",
+      "zh": "美丽的新娘老鼠正坐在花轿里，被大家抬着走！"
+    },
+    "elderly": {
+      "vi": "Chuột cô dâu ngồi kiệu, thể hiện nét e ấp và sự trang trọng của nghi lễ cưới truyền thống.",
+      "en": "The rat bride sitting in the palanquin shows the modesty and solemnity of traditional wedding ceremonies.",
+      "zh": "坐在轿子里的新娘老鼠，展现了传统婚礼仪式中的娇羞与庄重。"
+    },
+    "blindness": {
+      "vi": "Một cô chuột mặc trang phục cô dâu, được ngồi trên kiệu trong đoàn rước.",
+      "en": "A female rat wearing a bridal outfit, seated inside a palanquin in a procession.",
+      "zh": "一只穿着新娘服装的母老鼠，坐在迎亲队伍的花轿里。"
+    },
+    "adult": {
+      "vi": "Chuột cô dâu là trung tâm của nghi lễ, biểu tượng cho hạnh phúc lứa đôi nhưng cũng phản ánh việc ngay cả ngày vui của dân vẫn bị quyền lực can thiệp.",
+      "en": "The rat bride is the center of the ceremony, symbolizing marital happiness but also reflecting how even the joyous days of the commoners are interfered with by power.",
+      "zh": "新娘老鼠是仪式的中心，象征着婚姻s的幸福，但也反映出即使是平民的喜庆日子也会受到强权的干预。"
+    }
+  },
+
+  "Palanquin_Bearer_Mouse": {
+    "child": {
+      "vi": "Các chú chuột đang khiêng kiệu cho cô dâu, ai cũng rất chăm chỉ!",
+      "en": "These rats are carrying the palanquin for the bride, working so hard!",
+      "zh": "这些老鼠正在为新娘抬轿子，大家都很努力！"
+    },
+    "elderly": {
+      "vi": "Chuột khiêng kiệu thể hiện sự đồng lòng và vai trò của những người phục vụ trong nghi lễ truyền thống.",
+      "en": "The palanquin-bearing rats show solidarity and the role of attendants in traditional ceremonies.",
+      "zh": "抬轿老鼠展现了齐心协力，以及传统仪式中服务人员的角色。"
+    },
+    "blindness": {
+      "vi": "Một nhóm chuột đang khiêng chiếc kiệu có cô dâu ngồi bên trong.",
+      "en": "A group of rats carrying a palanquin with the bride seated inside.",
+      "zh": "一群老鼠正抬着一顶花轿，里面坐着新娘。"
+    },
+    "adult": {
+      "vi": "Chuột khiêng kiệu đại diện cho tầng lớp lao động – những người làm việc nặng nhọc để duy trì sự trang trọng của nghi lễ.",
+      "en": "The palanquin-bearing rats represent the working class—those who do the heavy lifting to maintain the solemnity of the ceremony.",
+      "zh": "抬轿老鼠代表劳动阶层——他们从事繁重的体力劳动以维持仪式的庄重。"
+    }
+  },
+
+  "Offering_Mouse": {
+    "child": {
+      "vi": "Những chú chuột này đang mang quà cưới như chim và cá để dâng lên!",
+      "en": "These rats are carrying wedding gifts like birds and fish to offer up!",
+      "zh": "这些老鼠正带着鸟和鱼等结婚礼物去进献！"
+    },
+    "elderly": {
+      "vi": "Chuột mang lễ vật thể hiện tục lệ biếu xén, phản ánh sự chu đáo nhưng cũng gợi lên nỗi vất vả của dân khi phải cống nạp.",
+      "en": "The tribute-bearing rats reflect the custom of giving gifts, showing thoughtfulness but also evoking the hardship of the commoners having to pay tribute.",
+      "zh": "送礼的老鼠体现了送礼的习俗，反映了周到的礼数，但也唤起了百姓被迫进贡的辛酸。"
+    },
+    "blindness": {
+      "vi": "Một chú chuột đang mang lễ vật như chim hoặc cá trên tay.",
+      "en": "A rat carrying offerings such as a bird or a fish in its paws.",
+      "zh": "一只老鼠手里拿着鸟或鱼等贡品。"
+    },
+    "adult": {
+      "vi": "Chuột mang lễ vật là hình ảnh châm biếm sâu sắc: dân phải dâng quà cho kẻ có quyền (mèo) để được yên ổn tổ chức đám cưới.",
+      "en": "The tribute-bearing rat is a profound satirical image: the commoners must offer gifts to the powerful (the cat) to be left in peace to hold a wedding.",
+      "zh": "送礼的老鼠是一个深刻的讽刺形象：平民必须向当权者（猫）献上礼物，才能平安地举行婚礼。"
+    }
+  },
+
+  "Servant_Mouse": {
+    "child": {
+      "vi": "Đây là những chú chuột đi theo để giúp đỡ cô dâu chú rể trong đám cưới.",
+      "en": "These are the servant rats following along to help the bride and groom at the wedding.",
+      "zh": "这些是跟随在队伍中，在婚礼上帮助新郎新娘的仆人老鼠。"
+    },
+    "elderly": {
+      "vi": "Chuột người hầu thể hiện sự phân cấp trong xã hội xưa, mỗi vai trò đều có vị trí rõ ràng.",
+      "en": "The servant rats reflect the social hierarchy of the past, where every role had a clear position.",
+      "zh": "仆人老鼠体现了古代社会的阶级分化，每个角色都有明确的位置。"
+    },
+    "blindness": {
+      "vi": "Một chú chuột trong trang phục người hầu, đi theo sau đoàn rước.",
+      "en": "A rat in servant attire, following behind the procession.",
+      "zh": "一只穿着仆人服装的老鼠，跟在迎亲队伍的后面。"
+    },
+    "adult": {
+      "vi": "Chuột người hầu đại diện cho tầng lớp thấp trong xã hội, làm các công việc hỗ trợ nhưng vẫn là phần quan trọng của nghi lễ.",
+      "en": "The servant rats represent the lower class in society, doing support work but remaining an important part of the ceremony.",
+      "zh": "仆人老鼠代表社会底层阶级，他们从事辅助性工作，但仍然是仪式的重要组成部分。"
+    }
+  },
+
+  "Musician_Mouse": {
+    "child": {
+      "vi": "Nhìn kìa! Các chú chuột nhạc công đang thổi kèn và đánh trống thật vui!",
+      "en": "Look! The musician rats are playing trumpets and beating drums so joyfully!",
+      "zh": "看啊！乐师老鼠们正在开心地吹喇叭、打鼓！"
+    },
+    "elderly": {
+      "vi": "Chuột nhạc công tạo nên không khí rộn ràng, mang tinh thần lạc quan của tranh dân gian.",
+      "en": "The musician rats create a festive atmosphere, bringing the optimistic spirit of folk art.",
+      "zh": "乐师老鼠营造了热闹的气氛，带来了民间艺术的乐观精神。"
+    },
+    "blindness": {
+      "vi": "Một chú chuột đang chơi nhạc cụ như kèn hoặc trống trong đoàn rước.",
+      "en": "A rat playing a musical instrument, such as a trumpet or drum, in the procession.",
+      "zh": "一只老鼠在迎亲队伍中演奏乐器，比如喇叭或鼓。"
+    },
+    "adult": {
+      "vi": "Chuột nhạc công thể hiện sự vui tươi của ngày cưới, nhưng cũng gợi lên sự đối lập giữa tiếng nhạc lễ hội và nỗi lo phải cống nạp cho mèo.",
+      "en": "The musician rats show the joy of the wedding day, but also evoke the contrast between the festive music and the anxiety of paying tribute to the cat.",
+      "zh": "乐师老鼠展现了婚礼的欢乐，但也唤起了节日音乐与被迫向猫进贡的焦虑之间的强烈对比。"
+    }
+  },
+
+  "Majestic_Cat": {
+    "child": {
+      "vi": "Con mèo to đang ngồi chặn đường, trông rất oai và đang nhận quà!",
+      "en": "The big cat is sitting and blocking the road, looking very bossy and receiving gifts!",
+      "zh": "大猫正坐在路上挡住去路，看起来很霸气，正在收礼物！"
+    },
+    "elderly": {
+      "vi": "Mèo uy nghi tượng trưng cho tầng lớp quan lại, những người có quyền lực và thường đòi hỏi lễ vật.",
+      "en": "The majestic cat symbolizes the feudal officials, those who hold power and constantly demand tributes.",
+      "zh": "威严的猫象征着封建官僚阶层，他们掌握权力并不断索要贡品。"
+    },
+    "blindness": {
+      "vi": "Một con mèo lớn ngồi ở vị trí cao, phía trước đoàn chuột, đang nhận lễ vật.",
+      "en": "A large cat sitting in a high position, ahead of the rat procession, receiving offerings.",
+      "zh": "一只大猫坐在高处，在老鼠队伍的前面，正在接受贡品。"
+    },
+    "adult": {
+      "vi": "Mèo uy nghi là biểu tượng của quyền lực, tham nhũng và sự áp bức. Nó ngồi chặn đường, buộc chuột phải dâng lễ để được đi tiếp.",
+      "en": "The majestic cat is a symbol of power, corruption, and oppression. It sits blocking the road, forcing the rats to offer gifts to be allowed to pass.",
+      "zh": "威严的猫是权力、腐败和压迫的象征。它拦在路上，强迫老鼠献上礼物才允许它们通行。"
+    }
+  }
+}

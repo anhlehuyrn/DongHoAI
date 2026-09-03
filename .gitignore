@@ -1,0 +1,12 @@
+# Ignore temporary audio and image files generated during AI execution
+temp_audio.mp3
+temp.jpg
+
+# Ignore Python junk files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore virtual environment (if any)
+venv/
+env/

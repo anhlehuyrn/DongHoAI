@@ -1,0 +1,120 @@
+import time
+import cv2
+import numpy as np
+from config import DWELL_TIME_THRESHOLD, FINGER_SMOOTHING_ALPHA, MAX_HANDS
+
+class HandTracker:
+    def __init__(self, max_hands=MAX_HANDS, detection_con=0.7, track_con=0.5):
+        self.mp_hands = None
+        self.hands = None
+        self.mp_draw = None
+        
+        # Exponential Moving Average for smoothing fingertip
+        self.smooth_x = None
+        self.smooth_y = None
+        self.alpha = FINGER_SMOOTHING_ALPHA
+
+        # Dwell-time state tracking
+        self.current_hover_class = None
+        self.hover_start_time = None
+        self.dwell_threshold = DWELL_TIME_THRESHOLD
+        self.has_triggered = False
+
+        self._init_mediapipe(max_hands, detection_con, track_con)
+
+    def _init_mediapipe(self, max_hands, detection_con, track_con):
+        try:
+            import mediapipe as mp
+            self.mp_hands = mp.solutions.hands
+            self.hands = self.mp_hands.Hands(
+                static_image_mode=False,
+                max_num_hands=max_hands,
+                min_detection_confidence=detection_con,
+                min_tracking_confidence=track_con
+            )
+            self.mp_draw = mp.solutions.drawing_utils
+            print("[HandTracker] Khởi tạo MediaPipe Hand Tracking thành công!", flush=True)
+        except Exception as e:
+            print(f"[HandTracker] Cảnh báo MediaPipe chưa sẵn sàng: {e}", flush=True)
+
+    def find_fingertip(self, frame):
+        if self.hands is None:
+            return None, None
+
+        img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        results = self.hands.process(img_rgb)
+
+        if results.multi_hand_landmarks:
+            for hand_lms in results.multi_hand_landmarks:
+                # Landmark 8: INDEX_FINGER_TIP
+                landmark = hand_lms.landmark[8]
+                h, w, c = frame.shape
+                raw_x, raw_y = int(landmark.x * w), int(landmark.y * h)
+
+                # Smooth coordinates using EMA
+                if self.smooth_x is None or self.smooth_y is None:
+                    self.smooth_x = raw_x
+                    self.smooth_y = raw_y
+                else:
+                    self.smooth_x = int(self.alpha * raw_x + (1 - self.alpha) * self.smooth_x)
+                    self.smooth_y = int(self.alpha * raw_y + (1 - self.alpha) * self.smooth_y)
+
+                return (self.smooth_x, self.smooth_y), hand_lms
+
+        # Reset smooth cache when hand is lost
+        self.smooth_x = None
+        self.smooth_y = None
+        return None, None
+
+    def update_dwell_touch(self, fingertip, detections):
+        """
+        Calculates dwell time when finger hovers over a bounding box.
+        Returns:
+            hover_class: class name of hovered object or None
+            progress: float between 0.0 and 1.0 (1.0 = triggered)
+            triggered: bool (True only once upon reaching 1.0)
+            target_bbox: the bbox currently hovered or None
+        """
+        if fingertip is None or not detections:
+            self._reset_hover()
+            return None, 0.0, False, None
+
+        fx, fy = fingertip
+        hovered_det = None
+
+        # Check if fingertip is inside any bbox
+        for det in detections:
+            x1, y1, x2, y2 = map(int, det['bbox'])
+            if x1 <= fx <= x2 and y1 <= fy <= y2:
+                hovered_det = det
+                break
+
+        if hovered_det is None:
+            self._reset_hover()
+            return None, 0.0, False, None
+
+        class_name = hovered_det['class']
+        current_time = time.time()
+
+        if self.current_hover_class != class_name:
+            # Started hovering over a new target
+            self.current_hover_class = class_name
+            self.hover_start_time = current_time
+            self.has_triggered = False
+            return class_name, 0.0, False, hovered_det['bbox']
+
+        # Continuing hover on same target
+        elapsed = current_time - self.hover_start_time
+        progress = min(1.0, elapsed / self.dwell_threshold)
+
+        triggered = False
+        if progress >= 1.0 and not self.has_triggered:
+            triggered = True
+            self.has_triggered = True
+
+        return class_name, progress, triggered, hovered_det['bbox']
+
+    def _reset_hover(self):
+        self.current_hover_class = None
+        self.hover_start_time = None
+        self.has_triggered = False
