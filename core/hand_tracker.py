@@ -1,14 +1,30 @@
+import os
 import time
+import urllib.request
 import cv2
-import numpy as np
-from config import DWELL_TIME_THRESHOLD, FINGER_SMOOTHING_ALPHA, MAX_HANDS
+
+from config import (
+    DWELL_TIME_THRESHOLD,
+    FINGER_SMOOTHING_ALPHA,
+    MAX_HANDS,
+    MEDIAPIPE_HAND_MODEL_PATH,
+    MEDIAPIPE_HAND_MODEL_URL,
+)
+
 
 class HandTracker:
+    """
+    Bám vết đầu ngón tay trỏ bằng MediaPipe Hand Landmarker (Tasks API).
+
+    Lưu ý: bản mediapipe >= 0.10.3x chỉ còn Tasks API (không có mp.solutions),
+    nên phải dùng HandLandmarker + file model hand_landmarker.task.
+    """
+
     def __init__(self, max_hands=MAX_HANDS, detection_con=0.7, track_con=0.5):
-        self.mp_hands = None
-        self.hands = None
-        self.mp_draw = None
-        
+        self.landmarker = None
+        self.mp = None
+        self.connections = None
+
         # Exponential Moving Average for smoothing fingertip
         self.smooth_x = None
         self.smooth_y = None
@@ -20,51 +36,100 @@ class HandTracker:
         self.dwell_threshold = DWELL_TIME_THRESHOLD
         self.has_triggered = False
 
+        self._last_timestamp_ms = 0
+
         self._init_mediapipe(max_hands, detection_con, track_con)
+
+    def _ensure_model_file(self):
+        """Tải file hand_landmarker.task nếu chưa có (chỉ chạy 1 lần)."""
+        if os.path.exists(MEDIAPIPE_HAND_MODEL_PATH):
+            return True
+        try:
+            print("[HandTracker] Đang tải model hand_landmarker.task (~7.8MB)...", flush=True)
+            urllib.request.urlretrieve(MEDIAPIPE_HAND_MODEL_URL, MEDIAPIPE_HAND_MODEL_PATH)
+            print("[HandTracker] Tải model Hand Landmarker thành công!", flush=True)
+            return True
+        except Exception as e:
+            print(f"[HandTracker] Không tải được model Hand Landmarker: {e}", flush=True)
+            return False
 
     def _init_mediapipe(self, max_hands, detection_con, track_con):
         try:
             import mediapipe as mp
-            self.mp_hands = mp.solutions.hands
-            self.hands = self.mp_hands.Hands(
-                static_image_mode=False,
-                max_num_hands=max_hands,
-                min_detection_confidence=detection_con,
-                min_tracking_confidence=track_con
+            from mediapipe.tasks.python.core.base_options import BaseOptions
+            from mediapipe.tasks.python.vision import (
+                HandLandmarker,
+                HandLandmarkerOptions,
+                HandLandmarksConnections,
+                RunningMode,
             )
-            self.mp_draw = mp.solutions.drawing_utils
+
+            if not self._ensure_model_file():
+                return
+
+            options = HandLandmarkerOptions(
+                base_options=BaseOptions(model_asset_path=MEDIAPIPE_HAND_MODEL_PATH),
+                running_mode=RunningMode.VIDEO,
+                num_hands=max_hands,
+                min_hand_detection_confidence=detection_con,
+                min_hand_presence_confidence=detection_con,
+                min_tracking_confidence=track_con,
+            )
+
+            self.mp = mp
+            self.landmarker = HandLandmarker.create_from_options(options)
+            self.connections = HandLandmarksConnections.HAND_CONNECTIONS
             print("[HandTracker] Khởi tạo MediaPipe Hand Tracking thành công!", flush=True)
         except Exception as e:
             print(f"[HandTracker] Cảnh báo MediaPipe chưa sẵn sàng: {e}", flush=True)
 
     def find_fingertip(self, frame):
-        if self.hands is None:
+        if self.landmarker is None:
             return None, None
 
         img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        results = self.hands.process(img_rgb)
+        mp_image = self.mp.Image(image_format=self.mp.ImageFormat.SRGB, data=img_rgb)
 
-        if results.multi_hand_landmarks:
-            for hand_lms in results.multi_hand_landmarks:
-                # Landmark 8: INDEX_FINGER_TIP
-                landmark = hand_lms.landmark[8]
-                h, w, c = frame.shape
-                raw_x, raw_y = int(landmark.x * w), int(landmark.y * h)
+        # Timestamp phải tăng đơn điệu khi dùng RunningMode.VIDEO
+        timestamp_ms = max(int(time.time() * 1000), self._last_timestamp_ms + 1)
+        self._last_timestamp_ms = timestamp_ms
 
-                # Smooth coordinates using EMA
-                if self.smooth_x is None or self.smooth_y is None:
-                    self.smooth_x = raw_x
-                    self.smooth_y = raw_y
-                else:
-                    self.smooth_x = int(self.alpha * raw_x + (1 - self.alpha) * self.smooth_x)
-                    self.smooth_y = int(self.alpha * raw_y + (1 - self.alpha) * self.smooth_y)
+        result = self.landmarker.detect_for_video(mp_image, timestamp_ms)
 
-                return (self.smooth_x, self.smooth_y), hand_lms
+        if result.hand_landmarks:
+            hand_lms = result.hand_landmarks[0]
+            # Landmark 8: INDEX_FINGER_TIP
+            landmark = hand_lms[8]
+            h, w, _ = frame.shape
+            raw_x, raw_y = int(landmark.x * w), int(landmark.y * h)
+
+            # Smooth coordinates using EMA
+            if self.smooth_x is None or self.smooth_y is None:
+                self.smooth_x = raw_x
+                self.smooth_y = raw_y
+            else:
+                self.smooth_x = int(self.alpha * raw_x + (1 - self.alpha) * self.smooth_x)
+                self.smooth_y = int(self.alpha * raw_y + (1 - self.alpha) * self.smooth_y)
+
+            return (self.smooth_x, self.smooth_y), hand_lms
 
         # Reset smooth cache when hand is lost
         self.smooth_x = None
         self.smooth_y = None
         return None, None
+
+    def draw_skeleton(self, frame, hand_landmarks):
+        """Vẽ xương bàn tay bằng OpenCV từ danh sách landmark."""
+        if hand_landmarks is None or self.connections is None:
+            return
+
+        h, w, _ = frame.shape
+        points = [(int(lm.x * w), int(lm.y * h)) for lm in hand_landmarks]
+
+        for conn in self.connections:
+            cv2.line(frame, points[conn.start], points[conn.end], (0, 230, 115), 2)
+        for point in points:
+            cv2.circle(frame, point, 3, (255, 255, 255), -1)
 
     def update_dwell_touch(self, fingertip, detections):
         """

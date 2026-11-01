@@ -109,11 +109,11 @@ def main():
             UIRenderer.draw_detection(frame, det['bbox'], c_name, is_cur_hovered, is_cur_triggered)
 
         # 5. Render Hand Landmarks & Dwell Progress Ring
-        if hand_landmarks and tracker.mp_draw:
-            tracker.mp_draw.draw_landmarks(frame, hand_landmarks, tracker.mp_hands.HAND_CONNECTIONS)
+        if hand_landmarks:
+            tracker.draw_skeleton(frame, hand_landmarks)
         
         if fingertip:
-            UIRenderer.draw_dwell_ring(frame, fingertip, dwell_progress, is_triggered=(dwell_progress >= 1.0))
+            UIRenderer.draw_dwell_ring(frame, fingertip, dwell_progress, triggered=(dwell_progress >= 1.0))
 
         # 6. Render HUD and Status Banners
         UIRenderer.draw_hud(frame, audience_mode, current_lang, voice_assistant.state, fps)

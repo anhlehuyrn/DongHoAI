@@ -8,6 +8,15 @@ KNOWLEDGE_BASE_FILE = os.path.join(BASE_DIR, "knowledge.json")
 AUDIO_CACHE_DIR = os.path.join(BASE_DIR, "audio_cache")
 TEMP_AUDIO_FILE = os.path.join(BASE_DIR, "temp_speech.mp3")
 
+# --- MediaPipe Hand Landmarker (Tasks API) ---
+# Lưu ý: bản mediapipe đang cài chỉ cung cấp Tasks API (không có mp.solutions),
+# nên cần file model .task cho HandLandmarker.
+MEDIAPIPE_HAND_MODEL_PATH = os.path.join(BASE_DIR, "hand_landmarker.task")
+MEDIAPIPE_HAND_MODEL_URL = (
+    "https://storage.googleapis.com/mediapipe-models/"
+    "hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task"
+)
+
 # Ensure cache directory exists
 os.makedirs(AUDIO_CACHE_DIR, exist_ok=True)
 
@@ -21,7 +30,9 @@ ROBOFLOW_CFG = {
 }
 
 # --- Computer Vision & Tracking Settings ---
-CONFIDENCE_THRESHOLD = 0.25
+# Model được train lại 150 epochs (mAP50 ~0.98). Ngưỡng 0.20 cân bằng giữa
+# việc bắt đủ nhân vật qua webcam và hạn chế box nhiễu.
+CONFIDENCE_THRESHOLD = 0.20
 DWELL_TIME_THRESHOLD = 0.8  # Seconds finger must hover over target to trigger
 FINGER_SMOOTHING_ALPHA = 0.5  # Exponential Moving Average factor (0=old only, 1=raw)
 MAX_HANDS = 1
@@ -49,7 +60,14 @@ LABEL_MAP = {
     "musician_mice": "Musician_Mouse",
     "musician mice": "Musician_Mouse",
     "ho_uy_nghi": "Majestic_Cat",
-    "meo_uy_nghi": "Majestic_Cat"
+    "meo_uy_nghi": "Majestic_Cat",
+    # Nhãn tiếng Việt của model fallback (dongho_best.pt)
+    "chuot_chu_re": "Groom_Mouse",
+    "chuot_co_dau": "Bride_Mouse",
+    "chuot_khenh_kieu": "Palanquin_Bearer_Mouse",
+    "chuot_mang_le_vat": "Offering_Mouse",
+    "chuot_nguoi_hau": "Servant_Mouse",
+    "chuot_nhac_cong": "Musician_Mouse"
 }
 
 # --- Modes & Languages Display ---
