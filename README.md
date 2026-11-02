@@ -5,6 +5,7 @@
 The system bridges cultural heritage, computer vision, and cognitive accessibility by combining **Object Detection (YOLOv8)**, **Tactile Dwell-Time Finger Tracking (MediaPipe)**, **Zero-Latency Natural Acoustic Synthesis (Edge-TTS)**, and an **Interactive Voice-to-Voice AI Assistant (Google Gemini LLM)** tailored to diverse audience demographics and visually impaired communities.
 
 This project serves as a research proof-of-concept (PoC) exploring Multimodal Human-Computer Interaction (HCI), semantic ontology mapping, and assistive technologies for cultural heritage preservation.
+Video demo: https://share.weiyun.com/nUPhFc3k
 
 ---
 
